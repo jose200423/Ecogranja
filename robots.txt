@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Bloquear archivos irrelevantes para el índice
+Disallow: /src/
+Disallow: /node_modules/
+
+# Sitemap
+Sitemap: https://www.ecogranjasanfrancisco.com/sitemap.xml
