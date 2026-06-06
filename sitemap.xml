@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Página principal -->
+  <url>
+    <loc>https://ecogranjasanfrancisco.com/</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ecogranjasanfrancisco.com/"/>
+    <image:image>
+      <image:loc>https://ecogranjasanfrancisco.com/images/hero1.webp</image:loc>
+      <image:title>Ecogranja San Francisco – Vista Natural</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://ecogranjasanfrancisco.com/images/hero2.webp</image:loc>
+      <image:title>Ecogranja San Francisco – Entorno Ecológico</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://ecogranjasanfrancisco.com/images/cabana1.webp</image:loc>
+      <image:title>Cabaña en Guadua – Ecogranja San Francisco</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://ecogranjasanfrancisco.com/images/cabana2.webp</image:loc>
+      <image:title>Hospedaje en Guadua – Ecogranja San Francisco</image:title>
+    </image:image>
+  </url>
+
+  <!-- Secciones con ancla → tratadas como sub-URLs para SEO -->
+  <url>
+    <loc>https://ecogranjasanfrancisco.com/#about</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://ecogranjasanfrancisco.com/#services</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://ecogranjasanfrancisco.com/#gallery</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://ecogranjasanfrancisco.com/#guadua</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://ecogranjasanfrancisco.com/#reservation</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://ecogranjasanfrancisco.com/#contact</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>

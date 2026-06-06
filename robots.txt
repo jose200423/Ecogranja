@@ -1,0 +1,14 @@
+# Ecogranja San Francisco – robots.txt
+# https://ecogranjasanfrancisco.com
+
+User-agent: *
+Allow: /
+Disallow: /node_modules/
+Disallow: /package.json
+Disallow: /package-lock.json
+
+# Sitemap
+Sitemap: https://ecogranjasanfrancisco.com/sitemap.xml
+
+# Crawl-delay (optional, for polite crawling)
+Crawl-delay: 1

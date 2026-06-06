@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Menú — Ecogranja San Francisco</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Georgia, sans-serif;
+    background: #fafaf7;
+    color: #2d2d2d;
+  }
+
+  .page {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 40px 50px 50px;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    padding-bottom: 24px;
+    border-bottom: 3px solid #3a7d44;
+    margin-bottom: 30px;
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 8px;
+  }
+  .logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #3a7d44;
+    box-shadow: 0 4px 15px rgba(58,125,68,0.2);
+  }
+  .header-text h1 {
+    font-family: Georgia, serif;
+    font-size: 30px;
+    color: #2c5f2e;
+    letter-spacing: 1px;
+    line-height: 1.15;
+  }
+  .header-text .subtitle {
+    font-size: 12px;
+    color: #6b8f71;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .header-tagline {
+    font-size: 13px;
+    color: #999;
+    font-style: italic;
+    margin-top: 6px;
+  }
+
+  /* DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0 14px;
+  }
+  .divider-line { flex: 1; height: 1px; background: #dce8dd; }
+  .divider-icon { color: #3a7d44; font-size: 14px; }
+
+  /* SECTION */
+  .section { margin-bottom: 26px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding-bottom: 7px;
+    border-bottom: 2px solid #e8f0e9;
+  }
+  .section-emoji { font-size: 18px; }
+  .section-title {
+    font-family: Georgia, serif;
+    font-size: 17px;
+    color: #2c5f2e;
+    font-weight: bold;
+  }
+  .section-badge {
+    margin-left: auto;
+    background: #3a7d44;
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+  }
+  .section-badge.yellow { background: #d4920a; }
+
+  /* ITEMS */
+  .items { display: flex; flex-direction: column; }
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 7px 0;
+    border-bottom: 1px dotted #e0e8e1;
+  }
+  .item:last-child { border-bottom: none; }
+  .item-name { font-size: 13.5px; font-weight: bold; color: #333; }
+  .item-desc { font-size: 12px; color: #888; margin-top: 2px; line-height: 1.4; }
+  .item-price {
+    font-size: 13.5px;
+    font-weight: bold;
+    color: #3a7d44;
+    white-space: nowrap;
+    margin-left: 14px;
+    padding-top: 1px;
+  }
+
+  /* GRID 2 cols */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 26px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+
+  /* MENÚ EJECUTIVO */
+  .ejecutivo-box {
+    background: linear-gradient(135deg, #f0f7f1, #e6f2e8);
+    border: 1px solid #b8d9be;
+    border-radius: 10px;
+    padding: 14px 18px;
+  }
+  .schedule {
+    font-size: 11px;
+    color: #6b8f71;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    margin-bottom: 9px;
+  }
+  .course {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 5px;
+    font-size: 13px;
+  }
+  .course-label { font-weight: bold; color: #2c5f2e; min-width: 68px; }
+  .course-desc { color: #555; }
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 9px;
+    border-top: 1px solid #b8d9be;
+  }
+  .price-label { font-size: 13px; font-weight: bold; color: #555; }
+  .price-value { font-size: 20px; font-weight: bold; color: #2c5f2e; font-family: Georgia, serif; }
+
+  /* BEBIDAS sub */
+  .sub-title {
+    font-size: 11px;
+    color: #6b8f71;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    margin-bottom: 6px;
+    padding-left: 8px;
+    border-left: 3px solid #3a7d44;
+  }
+  .jugos-tag {
+    display: inline-block;
+    background: #fff8e8;
+    border: 1px solid #f0c060;
+    color: #b07a10;
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 34px;
+    padding-top: 18px;
+    border-top: 2px solid #3a7d44;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-brand { font-family: Georgia, serif; font-size: 14px; color: #2c5f2e; font-weight: bold; }
+  .footer-location { font-size: 12px; color: #888; margin-top: 2px; }
+  .whatsapp-label { font-size: 11px; color: #aaa; margin-bottom: 2px; text-align: right; }
+  .whatsapp { font-size: 13px; font-weight: bold; color: #3a7d44; }
+  .footer-note {
+    font-size: 10px;
+    color: #ccc;
+    text-align: center;
+    margin-top: 12px;
+    font-style: italic;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .page { padding: 20px 30px; max-width: 100%; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <img src="./sanfrancisco/public/images/logo.jpg" class="logo" alt="Logo Ecogranja San Francisco">
+      <div class="header-text">
+        <h1>Ecogranja<br>San Francisco</h1>
+        <div class="subtitle">Silvania, Cundinamarca</div>
+      </div>
+    </div>
+    <div class="header-tagline">Pollo asado artesanal &nbsp;·&nbsp; Sabores del campo &nbsp;·&nbsp; Productos naturales</div>
+  </div>
+
+  <!-- COMBOS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-emoji">🍽️</span>
+      <span class="section-title">Combos</span>
+      <span class="section-badge">Más popular</span>
+    </div>
+    <div class="items">
+      <div class="item">
+        <div><div class="item-name">Combo Personal</div><div class="item-desc">¼ pollo asado + papas fritas + bebida</div></div>
+        <div class="item-price">$22.000</div>
+      </div>
+      <div class="item">
+        <div><div class="item-name">Combo Familiar</div><div class="item-desc">1 pollo entero + papas fritas + 4 bebidas + ensalada</div></div>
+        <div class="item-price">$75.000</div>
+      </div>
+      <div class="item">
+        <div><div class="item-name">Combo Pareja</div><div class="item-desc">½ pollo asado + papas fritas + 2 bebidas</div></div>
+        <div class="item-price">$40.000</div>
+      </div>
+      <div class="item">
+        <div><div class="item-name">Combo Ejecutivo</div><div class="item-desc">¼ de pollo + arroz + ensalada + bebida</div></div>
+        <div class="item-price">$26.000</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+
+  <!-- PRESAS + A LA CARTA -->
+  <div class="two-col">
+    <div>
+      <div class="section-header">
+        <span class="section-emoji">🍗</span>
+        <span class="section-title">Presas Sueltas</span>
+      </div>
+      <div class="items">
+        <div class="item"><div class="item-name">Pechuga</div><div class="item-price">$12.000</div></div>
+        <div class="item"><div class="item-name">Pierna y Pernil</div><div class="item-price">$10.000</div></div>
+        <div class="item"><div class="item-name">Ala</div><div class="item-price">$8.000</div></div>
+        <div class="item"><div class="item-name">¼ de Pollo</div><div class="item-price">$14.000</div></div>
+        <div class="item"><div class="item-name">½ Pollo</div><div class="item-price">$26.000</div></div>
+        <div class="item"><div class="item-name">Pollo Entero</div><div class="item-price">$48.000</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="section-header">
+        <span class="section-emoji">🌿</span>
+        <span class="section-title">A La Carta</span>
+      </div>
+      <div class="items">
+        <div class="item"><div class="item-name">Pollo asado + papas</div><div class="item-price">$18.000</div></div>
+        <div class="item"><div class="item-name">Pollo + arroz + ensalada</div><div class="item-price">$20.000</div></div>
+        <div class="item"><div class="item-name">Pollo + yuca frita</div><div class="item-price">$19.000</div></div>
+        <div class="item"><div class="item-name">Pollo + tostones</div><div class="item-price">$19.000</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+
+  <!-- MENÚ EJECUTIVO -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-emoji">⭐</span>
+      <span class="section-title">Menú Ejecutivo</span>
+      <span class="section-badge yellow">Lun – Vie</span>
+    </div>
+    <div class="ejecutivo-box">
+      <div class="schedule">Disponible de lunes a viernes</div>
+      <div class="course"><div class="course-label">Entrada</div><div class="course-desc">Sopa del día · Crema o sopa campesina</div></div>
+      <div class="course"><div class="course-label">Principal</div><div class="course-desc">¼ de pollo asado + arroz + ensalada + bebida</div></div>
+      <div class="course"><div class="course-label">Postre</div><div class="course-desc">Según disponibilidad del día</div></div>
+      <div class="price-row">
+        <div class="price-label">Menú completo</div>
+        <div class="price-value">$28.000</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+
+  <!-- SOPAS + ACOMPAÑAMIENTOS -->
+  <div class="two-col">
+    <div>
+      <div class="section-header">
+        <span class="section-emoji">🥣</span>
+        <span class="section-title">Sopas</span>
+      </div>
+      <div class="items">
+        <div class="item"><div class="item-name">Caldo de pollo campesino</div><div class="item-price">$8.000</div></div>
+        <div class="item"><div class="item-name">Sancocho de pollo</div><div class="item-price">$10.000</div></div>
+        <div class="item"><div class="item-name">Crema de mazorca</div><div class="item-price">$9.000</div></div>
+        <div class="item"><div class="item-name">Ajiaco santafereño</div><div class="item-price">$12.000</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="section-header">
+        <span class="section-emoji">🌽</span>
+        <span class="section-title">Acompañamientos</span>
+      </div>
+      <div class="items">
+        <div class="item"><div class="item-name">Papas fritas</div><div class="item-price">$5.000</div></div>
+        <div class="item"><div class="item-name">Yuca frita</div><div class="item-price">$5.000</div></div>
+        <div class="item"><div class="item-name">Arroz</div><div class="item-price">$4.000</div></div>
+        <div class="item"><div class="item-name">Ensalada fresca</div><div class="item-price">$5.000</div></div>
+        <div class="item"><div class="item-name">Tostones</div><div class="item-price">$5.000</div></div>
+        <div class="item"><div class="item-name">Mazorca asada</div><div class="item-price">$4.000</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+
+  <!-- BEBIDAS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-emoji">🥤</span>
+      <span class="section-title">Bebidas</span>
+    </div>
+    <div class="three-col">
+      <div>
+        <div class="sub-title">Refrescos</div>
+        <div class="items" style="margin-top:8px;">
+          <div class="item"><div class="item-name">Gaseosa</div><div class="item-price">$3.000</div></div>
+          <div class="item"><div class="item-name">Agua mineral</div><div class="item-price">$3.000</div></div>
+          <div class="item"><div class="item-name">Té frío</div><div class="item-price">$4.000</div></div>
+          <div class="item"><div class="item-name">Limonada natural</div><div class="item-price">$5.000</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="sub-title">Jugos Naturales</div>
+        <div class="jugos-tag" style="margin-top:6px;">Frutas de la región</div>
+        <div class="items">
+          <div class="item"><div class="item-name">Mora</div><div class="item-price">$6.000</div></div>
+          <div class="item"><div class="item-name">Lulo</div><div class="item-price">$6.000</div></div>
+          <div class="item"><div class="item-name">Tomate de árbol</div><div class="item-price">$6.000</div></div>
+          <div class="item"><div class="item-name">Maracuyá</div><div class="item-price">$6.000</div></div>
+          <div class="item"><div class="item-name">Curuba</div><div class="item-price">$6.000</div></div>
+          <div class="item"><div class="item-name">Feijoa</div><div class="item-price">$6.000</div></div>
+          <div class="item"><div class="item-name">Uchuva</div><div class="item-price">$6.000</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="sub-title">Bebidas Calientes</div>
+        <div class="items" style="margin-top:8px;">
+          <div class="item"><div class="item-name">Tinto / Café</div><div class="item-price">$2.000</div></div>
+          <div class="item"><div class="item-name">Aromática</div><div class="item-price">$2.000</div></div>
+          <div class="item"><div class="item-name">Chocolate caliente</div><div class="item-price">$4.500</div></div>
+          <div class="item"><div class="item-name">Aguapanela con queso</div><div class="item-price">$4.000</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>
+      <div class="footer-brand">Ecogranja San Francisco</div>
+      <div class="footer-location">📍 Silvania, Cundinamarca</div>
+    </div>
+    <div>
+      <div class="whatsapp-label">Reservas y pedidos</div>
+      <div class="whatsapp">📱 +57 312 575 5037</div>
+    </div>
+  </div>
+  <div class="footer-note">Precios en pesos colombianos (COP) · Incluye IVA · Sujeto a disponibilidad</div>
+
+</div>
+</body>
+</html>
