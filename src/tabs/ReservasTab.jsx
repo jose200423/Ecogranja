@@ -95,7 +95,6 @@ export default function ReservasTab() {
               <ul>
                 <li>Las reservas se confirman por WhatsApp</li>
                 <li>Se requiere depósito del 30% para confirmar</li>
-                <li>Cancelación gratuita hasta 48 horas antes</li>
                 <li>Mascotas: consultar disponibilidad</li>
               </ul>
               <a

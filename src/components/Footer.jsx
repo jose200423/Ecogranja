@@ -8,7 +8,7 @@ export default function Footer({ onTabChange }) {
         {/* Brand */}
         <div className="footer-brand">
           <div className="footer-logo">
-            <img src="/images/logo.webp" alt="Ecogranja San Francisco" />
+            <img src={`${import.meta.env.BASE_URL}images/logo.webp`} alt="Ecogranja San Francisco" />
             <div>
               <strong>Ecogranja</strong>
               <span>San Francisco</span>
@@ -25,7 +25,7 @@ export default function Footer({ onTabChange }) {
               rel="noreferrer"
               aria-label="Instagram"
             >
-              <img src="/images/iconos/instagram.png" alt="Instagram" />
+              <img src={`${import.meta.env.BASE_URL}images/iconos/instagram.png`} alt="Instagram" />
             </a>
             <a
               href="https://www.tiktok.com/@ecogranjasanfra"
@@ -33,7 +33,7 @@ export default function Footer({ onTabChange }) {
               rel="noreferrer"
               aria-label="TikTok"
             >
-              <img src="/images/iconos/tiktok.png" alt="TikTok" />
+              <img src={`${import.meta.env.BASE_URL}images/iconos/tiktok.png`} alt="TikTok" />
             </a>
             <a
               href="https://wa.me/573125755037"

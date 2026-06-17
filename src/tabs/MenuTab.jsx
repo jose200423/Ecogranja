@@ -146,7 +146,7 @@ export default function MenuTab() {
       {/* Hero */}
       <div className="menu-hero">
         <div className="menu-hero-inner">
-          <img src="/images/logo.webp" alt="Ecogranja San Francisco" className="menu-logo" />
+          <img src={`${import.meta.env.BASE_URL}images/logo.webp`} alt="Ecogranja San Francisco" className="menu-logo" />
           <h1>Menú — Pollo Asado</h1>
           <p>Ecogranja San Francisco · Silvania, Cundinamarca</p>
         </div>

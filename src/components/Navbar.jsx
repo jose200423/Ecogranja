@@ -33,7 +33,7 @@ export default function Navbar({ activeTab, onTabChange }) {
       <div className="navbar-inner">
         {/* Logo */}
         <button className="navbar-logo" onClick={() => handleTabClick('inicio')}>
-          <img src="/images/logo.webp" alt="Ecogranja San Francisco" className="logo-img" />
+          <img src={`${import.meta.env.BASE_URL}images/logo.webp`} alt="Ecogranja San Francisco" className="logo-img" />
           <div className="logo-text">
             <span className="logo-name">Ecogranja</span>
             <span className="logo-sub">San Francisco</span>
