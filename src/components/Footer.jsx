@@ -1,4 +1,5 @@
 import { MapPin, Phone } from 'lucide-react';
+import WhatsAppIcon from './WhatsAppIcon';
 import './Footer.css';
 
 export default function Footer({ onTabChange }) {
@@ -42,7 +43,7 @@ export default function Footer({ onTabChange }) {
               className="footer-wa"
               aria-label="WhatsApp"
             >
-              WhatsApp
+              <WhatsAppIcon size={18} />
             </a>
           </div>
         </div>
@@ -51,9 +52,17 @@ export default function Footer({ onTabChange }) {
         <div className="footer-links">
           <h4>Navegación</h4>
           <nav>
-            {['inicio', 'servicios', 'galeria', 'guadua', 'reservas', 'contacto'].map((tab) => (
+            {[
+              ['inicio', 'Inicio'],
+              ['servicios', 'Servicios'],
+              ['galeria', 'Galería'],
+              ['guadua', 'Guadua'],
+              ['menu', 'Menú'],
+              ['reservas', 'Reservas'],
+              ['contacto', 'Contacto'],
+            ].map(([tab, label]) => (
               <button key={tab} onClick={() => onTabChange(tab)}>
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                {label}
               </button>
             ))}
           </nav>
@@ -63,12 +72,12 @@ export default function Footer({ onTabChange }) {
         <div className="footer-links">
           <h4>Servicios</h4>
           <nav>
-            <button onClick={() => onTabChange('servicios')}>Hospedaje y Cabañas</button>
-            <button onClick={() => onTabChange('servicios')}>Campamento RUAH</button>
-            <button onClick={() => onTabChange('servicios')}>Experiencia RUAH</button>
-            <button onClick={() => onTabChange('servicios')}>Encuentros Empresariales</button>
-            <button onClick={() => onTabChange('servicios')}>Retiros Espirituales</button>
-            <button onClick={() => onTabChange('servicios')}>Productos Orgánicos</button>
+            <button onClick={() => onTabChange('servicios/hospedaje')}>Estadía en la naturaleza</button>
+            <button onClick={() => onTabChange('servicios/ruah')}>Experiencia RUAH</button>
+            <button onClick={() => onTabChange('servicios/campamento')}>Campamento RUAH</button>
+            <button onClick={() => onTabChange('servicios/experiencias/empresarial')}>Encuentros empresariales</button>
+            <button onClick={() => onTabChange('servicios/experiencias/colegio')}>Convivencias de colegio</button>
+            <button onClick={() => onTabChange('servicios/productos')}>Productos orgánicos</button>
           </nav>
         </div>
 

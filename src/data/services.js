@@ -13,7 +13,12 @@ const campamentoImages   = imgs(import.meta.glob('../assets/campamento/*.{jpg,jp
 const experienciasImages = imgs(import.meta.glob('../assets/experiencias/*.{jpg,jpeg,webp,png,avif}', { eager: true }));
 const productosImages    = imgs(import.meta.glob('../assets/productos/*.{jpg,jpeg,webp,png,avif}',    { eager: true }));
 
+// PRECIOS: agrega `priceFrom: 55000` (en pesos, por persona) a un servicio para
+// mostrar "Desde $55.000 por persona" en su tarjeta y en su ficha. Sin el campo no se muestra nada.
 // ──────────────────────────────────────────────────────────────────────────────
+const COP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+export const formatPrice = (value) => COP.format(value);
+
 export const servicesData = [
   {
     id: 'hospedaje',
@@ -22,14 +27,20 @@ export const servicesData = [
     icon: 'Home',
     tag: 'Más popular',
     color: '#2c7a4b',
+    booking: {
+      options: [
+        { id: 'pasadia', label: 'Pasadía', mode: 'single' },
+        { id: 'dos-dias', label: 'Dos días, una noche', mode: 'range' },
+      ],
+    },
     description:
       'Vive una experiencia única en nuestras acogedoras cabañas construidas en guadua, rodeadas de naturaleza exuberante. Despierta con el canto de los pájaros, respira aire puro y desconéctate del mundo moderno en un entorno mágico.',
     images: hospedajeImages,
     accordionItems: [
       {
         title: 'Pasadía',
-        emoji: '☀️',
-        color: '#3d9960',
+        icon: 'Sun',
+        color: '#2c7a4b',
         bullets: [
           'Bienvenida',
           'Visita a la granja',
@@ -42,7 +53,7 @@ export const servicesData = [
       },
       {
         title: 'Dos días, una noche',
-        emoji: '🌙',
+        icon: 'Moon',
         color: '#2c7a4b',
         bullets: [
           'Día 1: Bienvenida, visita a la granja, actividades de huerta, refrigerio, almuerzo campesino, fogata y cena',
@@ -54,18 +65,22 @@ export const servicesData = [
   {
     id: 'ruah',
     title: 'Experiencia RUAH',
-    subtitle: '',
+    subtitle: 'Celebraciones familiares de dos días en la finca',
     icon: 'Users',
     tag: 'Familiar',
-    color: '#c9a96e',
+    color: '#8a6a32',
+    booking: {
+      options: [{ id: 'dos-dias', label: 'Dos días, una noche', mode: 'range' }],
+      maxGuests: 30,
+    },
     description:
       'Crea recuerdos inolvidables con tu familia en medio de la naturaleza. Ideal para cumpleaños, reuniones y celebraciones especiales. Un espacio donde los lazos familiares se fortalecen lejos del ruido de la ciudad.',
     images: ruahImages,
     accordionItems: [
       {
         title: 'Dos días, una noche',
-        emoji: '🎉',
-        color: '#c9a96e',
+        icon: 'PartyPopper',
+        color: '#8a6a32',
         bullets: [
           'Capacidad: hasta 30 personas',
           'Día 1: Refrigerios, almuerzo y cena',
@@ -86,13 +101,17 @@ export const servicesData = [
     icon: 'Tent',
     tag: 'Aventura',
     color: '#8b4513',
+    booking: {
+      options: [{ id: 'dos-dias', label: 'Dos días, una noche', mode: 'range' }],
+      minGuests: 10,
+    },
     description:
       'Una experiencia de campamento que desafía límites, construye carácter y fortalece el trabajo en equipo. Actividades de supervivencia, exploración de la naturaleza y retos grupales que transforman a los participantes.',
     images: campamentoImages,
     accordionItems: [
       {
         title: 'Campamento de aventura',
-        emoji: '⛺',
+        icon: 'Tent',
         color: '#8b4513',
         bullets: [
           'Edad: 14 años en adelante',
@@ -111,7 +130,7 @@ export const servicesData = [
     subtitle: 'De la finca directo a tu mesa',
     icon: 'ShoppingBasket',
     tag: 'Orgánico',
-    color: '#c9a96e',
+    color: '#8a6a32',
     whatsappOnly: true,
     description:
       'Ofrecemos productos naturales cultivados en nuestra finca con amor y respeto por la tierra. Sin agroquímicos, sin aditivos — solo lo mejor que la naturaleza nos da.',
@@ -119,8 +138,8 @@ export const servicesData = [
     accordionItems: [
       {
         title: 'Productos disponibles',
-        emoji: '🥬',
-        color: '#5a9a3a',
+        icon: 'Sprout',
+        color: '#4a7f2f',
         bullets: [
           'Huevos de gallina criolla',
           'Conejo',
@@ -134,8 +153,8 @@ export const servicesData = [
       },
       {
         title: 'Entrega',
-        emoji: '🚚',
-        color: '#c9a96e',
+        icon: 'Truck',
+        color: '#8a6a32',
         bullets: [
           'Directa en la finca',
           'Servicio a domicilio en Bogotá',
@@ -146,11 +165,17 @@ export const servicesData = [
   {
     id: 'experiencias',
     title: 'Experiencias y Encuentros',
-    subtitle: 'Retiros, eventos corporativos y convivencias',
+    subtitle: 'Encuentros empresariales y convivencias de colegio',
     icon: 'Sparkles',
     tag: 'Especial',
-    color: '#3d9960',
+    color: '#2c7a4b',
     isExperiencias: true,
+    booking: {
+      options: [
+        { id: 'empresarial', label: 'Encuentro empresarial', mode: 'multi', minGuests: 10, maxGuests: 30 },
+        { id: 'colegio', label: 'Convivencia de colegio', mode: 'multi', minGuests: 20, maxGuests: 30 },
+      ],
+    },
     description:
       'Espacios diseñados para crecer, conectar y transformar. Encuentros empresariales, convivencias escolares y experiencias grupales en la naturaleza que fortalecen equipos y comunidades.',
     images: experienciasImages,
@@ -159,12 +184,12 @@ export const servicesData = [
         id: 'empresarial',
         title: 'Encuentros Empresariales',
         icon: 'Briefcase',
-        color: '#3d9960',
+        color: '#2c7a4b',
         description:
           'Potencia tu equipo de trabajo con experiencias transformadoras en la naturaleza. Talleres de liderazgo, dinámicas de integración y actividades diseñadas para fortalecer la comunicación y el trabajo colaborativo.',
         details: [
           { label: 'Para empresas', text: 'Pequeñas, medianas y grandes empresas' },
-          { label: 'Grupos',        text: 'Desde 10 hasta 100 personas' },
+          { label: 'Grupos',        text: 'Desde 10 hasta 30 personas' },
           { label: 'Objetivos',     text: 'Team building, liderazgo, comunicación asertiva' },
           { label: 'Duración',      text: 'Desde 1 día hasta semana completa' },
         ],
@@ -180,13 +205,13 @@ export const servicesData = [
         id: 'colegio',
         title: 'Convivencias de Colegio',
         icon: 'GraduationCap',
-        color: '#c9a96e',
+        color: '#8a6a32',
         description:
           'Una experiencia pedagógica y recreativa que fortalece los lazos entre estudiantes y docentes. Actividades en la naturaleza, valores, trabajo en equipo y momentos de convivencia que quedan para siempre.',
         details: [
           { label: 'Para quién',   text: 'Estudiantes de primaria, bachillerato y universitarios' },
           { label: 'Duración',     text: '1 a 3 días según el programa' },
-          { label: 'Grupos',       text: 'Desde 20 hasta 150 estudiantes' },
+          { label: 'Grupos',       text: 'Desde 20 hasta 30 estudiantes' },
           { label: 'Actividades',  text: 'Talleres, juegos, caminatas, fogata y reflexión' },
         ],
         includes: [

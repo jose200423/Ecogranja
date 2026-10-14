@@ -8,6 +8,10 @@
   --color-secondary: #8db87a;
   --color-bamboo: #c9a96e;
   --color-bamboo-dark: #a8874f;
+  --color-bamboo-text: #8a6a32;   /* dorado legible sobre crema/blanco (4.6:1) */
+  --color-forest: #1a3d28;
+  --color-whatsapp: #1a7f45;      /* verde de conversión, texto blanco 5:1 */
+  --color-whatsapp-dark: #146a39;
   --color-terra: #8b4513;
   --color-cream: #f8f5f0;
   --color-cream-dark: #f0ebe3;
@@ -15,9 +19,24 @@
   --color-text-light: #666;
   --color-white: #ffffff;
 
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Lato', sans-serif;
-  --font-cursive: 'Dancing Script', cursive;
+  /* Alegreya: serif caligráfica de origen latinoamericano, con su versión sans para el texto */
+  --font-serif: 'Alegreya', Georgia, serif;
+  --font-sans: 'Alegreya Sans', 'Segoe UI', sans-serif;
+  --font-cursive: 'Dancing Script', cursive;   /* solo el logotipo */
+  --font-accent: 'Alegreya', Georgia, serif;   /* subtítulos y palabras destacadas, en cursiva */
+  --accent-style: italic;
+  --title-weight: 800;
+  --title-variation: normal;
+  --title-tracking: -0.01em;
+
+  /* Escala por rol: pasos claramente distintos, cuerpo de lectura ≥ 16px */
+  --text-meta: 0.8125rem;   /* etiquetas, leyendas */
+  --text-small: 0.9375rem;  /* textos de tarjeta, listas */
+  --text-body: 1.0625rem;   /* párrafos */
+  --text-lead: 1.1875rem;   /* entradillas bajo un título */
+  --text-h3: 1.3rem;        /* títulos de tarjeta */
+  --text-h2: clamp(2.1rem, 4.4vw, 3.25rem);
+  --text-display: clamp(2.6rem, 7vw, 4.9rem);
 
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
   --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.12);
@@ -72,6 +91,39 @@ button {
 }
 
 /* ============================
+   FOCO DE TECLADO
+   ============================ */
+:focus-visible {
+  outline: 3px solid var(--color-primary-dark);
+  outline-offset: 3px;
+}
+
+/* Sobre fondos oscuros o fotos, el anillo va en blanco */
+.navbar :focus-visible,
+.hero :focus-visible,
+.footer :focus-visible,
+.cta-banner :focus-visible,
+.menu-section :focus-visible,
+.guadua-cta-section :focus-visible,
+.lightbox-overlay :focus-visible,
+.gallery-lightbox :focus-visible,
+.modal-gallery :focus-visible,
+.exp-modal-hero :focus-visible,
+.carousel :focus-visible {
+  outline-color: var(--color-white);
+}
+
+::selection {
+  background: var(--color-secondary);
+  color: var(--color-forest);
+}
+
+/* Los contenedores de diálogo reciben foco por programa, sin anillo */
+[role="dialog"]:focus {
+  outline: none;
+}
+
+/* ============================
    UTILITIES
    ============================ */
 .container {
@@ -85,24 +137,34 @@ button {
   margin-bottom: 48px;
 }
 
-.section-label {
-  display: inline-block;
-  font-family: var(--font-cursive);
-  font-size: 1.1rem;
-  color: var(--color-bamboo);
-  margin-bottom: 8px;
-}
 
 .section-title {
   font-family: var(--font-serif);
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-size: var(--text-h2);
+  font-weight: var(--title-weight);
+  font-variation-settings: var(--title-variation);
+  letter-spacing: var(--title-tracking);
   color: var(--color-primary-dark);
-  margin-bottom: 16px;
-  line-height: 1.2;
+  margin-bottom: 18px;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+/* Palabra destacada dentro de un título: cursiva de la propuesta en dorado */
+.section-title em,
+.hero-title em {
+  font-family: var(--font-accent);
+  font-style: var(--accent-style);
+  color: var(--color-bamboo-text);
+  font-weight: inherit;
+}
+
+.hero-title em {
+  color: var(--color-bamboo);
 }
 
 .section-desc {
-  font-size: 1.05rem;
+  font-size: var(--text-lead);
   color: var(--color-text-light);
   max-width: 600px;
   margin: 0 auto;
@@ -157,7 +219,7 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: #25D366;
+  background: var(--color-whatsapp);
   color: var(--color-white);
   padding: 14px 32px;
   border-radius: 50px;
@@ -167,8 +229,37 @@ button {
   border: none;
 }
 
+.service-price {
+  font-size: 0.88rem;
+  color: var(--color-text-light);
+}
+
+.service-price strong {
+  font-size: 1.05rem;
+  color: var(--color-primary-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+.modal-wa-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-whatsapp);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.modal-wa-link:hover {
+  color: var(--color-whatsapp-dark);
+}
+
 .btn-whatsapp:hover {
-  background: #1da851;
+  background: var(--color-whatsapp-dark);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
@@ -209,4 +300,117 @@ button {
 
 .fade-in {
   animation: fadeIn 0.6s ease forwards;
+}
+
+/* ============================
+   MOVIMIENTO REDUCIDO
+   ============================ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Títulos de tarjeta, modal y bandas con el mismo peso que los de sección */
+:is(.service-card-title, .modal-title, .exp-modal-title, .panel-title, .guadua-fact dt, .cta-banner h2, .menu-content h3, .guadua-cta-inner h2) {
+  font-weight: var(--title-weight);
+  font-variation-settings: var(--title-variation);
+}
+
+/* ============================
+   RAMITAS DE GUADUA EN LAS BANDAS VERDES
+   ============================ */
+.cta-banner,
+.menu-section,
+.guadua-cta-section,
+.menu-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.cta-banner::before,
+.cta-banner::after,
+.menu-section::before,
+.menu-section::after,
+.guadua-cta-section::before,
+.guadua-cta-section::after,
+.menu-hero::before,
+.menu-hero::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 220px;
+  height: 160px;
+  background: url('../assets/deco/guadua-ramita.svg') no-repeat center / contain;
+  pointer-events: none;
+}
+
+/* Las dos ramitas entran por la derecha: el texto de las bandas está a la izquierda */
+.cta-banner::before,
+.menu-section::before,
+.guadua-cta-section::before,
+.menu-hero::before {
+  right: -40px;
+  bottom: -34px;
+  transform: scaleX(-1);
+  opacity: 0.5;
+}
+
+.cta-banner::after,
+.menu-section::after,
+.guadua-cta-section::after,
+.menu-hero::after {
+  right: -30px;
+  top: -34px;
+  transform: scale(-1, -1);
+  opacity: 0.5;
+}
+
+@media (max-width: 600px) {
+  /* En el celular el texto ocupa todo el ancho: queda solo la ramita de arriba, pequeña */
+  .cta-banner::before,
+  .menu-section::before,
+  .guadua-cta-section::before,
+  .menu-hero::before {
+    display: none;
+  }
+
+  .cta-banner::after,
+  .menu-section::after,
+  .guadua-cta-section::after,
+  .menu-hero::after {
+    width: 130px;
+    height: 95px;
+    opacity: 0.4;
+  }
+}
+
+/* Tarjeta verde de contacto: una ramita entra por la esquina inferior derecha */
+.contact-whatsapp-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.contact-whatsapp-card::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  right: -36px;
+  bottom: -30px;
+  width: 190px;
+  height: 138px;
+  background: url('../assets/deco/guadua-ramita.svg') no-repeat center / contain;
+  transform: scaleX(-1);
+  opacity: 0.45;
+  pointer-events: none;
 }

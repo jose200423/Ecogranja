@@ -19,7 +19,7 @@
   color: var(--color-text-light);
   line-height: 1.9;
   margin-bottom: 16px;
-  font-size: 1.02rem;
+  font-size: var(--text-body);
 }
 
 .guadua-ctas {
@@ -54,6 +54,14 @@
 /* Visual */
 .guadua-img-container {
   position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
   border-radius: var(--radius-lg);
   overflow: hidden;
   cursor: pointer;
@@ -61,6 +69,7 @@
 }
 
 .guadua-img-container img {
+  display: block;
   width: 100%;
   height: 400px;
   object-fit: cover;
@@ -106,7 +115,7 @@
   transform: scale(1.1);
 }
 
-.play-overlay span {
+.play-overlay > span:last-child {
   color: rgba(255, 255, 255, 0.9);
   font-size: 0.9rem;
   font-weight: 600;
@@ -118,41 +127,47 @@
   padding: 80px 0;
 }
 
-.features-grid {
+/* Ficha del material: filas separadas por la línea del tallo, cada título con su nudo */
+.guadua-facts {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 56px;
+  max-width: 980px;
+  margin: 0 auto;
 }
 
-.feature-card {
-  background: var(--color-white);
-  padding: 32px 24px;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+.guadua-fact {
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  column-gap: 16px;
+  padding: 26px 0 28px;
+  border-top: 2px solid rgba(168, 135, 79, 0.28);
 }
 
-.feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+.guadua-fact::before {
+  content: '';
+  grid-row: 1 / span 2;
+  width: 8px;
+  height: 22px;
+  margin-top: 3px;
+  border-radius: 3px;
+  background: var(--color-bamboo-text);
+  box-shadow: inset 0 0 0 2px var(--color-bamboo);
 }
 
-.feature-icon {
-  color: var(--color-primary);
-  margin-bottom: 16px;
-}
-
-.feature-card h3 {
+.guadua-fact dt {
   font-family: var(--font-serif);
-  font-size: 1.05rem;
+  font-size: var(--text-h3);
   color: var(--color-primary-dark);
-  margin-bottom: 10px;
+  line-height: 1.3;
+  margin-bottom: 8px;
 }
 
-.feature-card p {
-  font-size: 0.9rem;
+.guadua-fact dd {
+  font-size: var(--text-small);
   color: var(--color-text-light);
   line-height: 1.7;
+  max-width: 46ch;
 }
 
 /* Portfolio */
@@ -203,6 +218,16 @@
   opacity: 1;
 }
 
+/* Flechas y puntos del carrusel: solo existen en el celular */
+.portfolio-carousel {
+  position: relative;
+}
+
+.portfolio-arrow,
+.portfolio-dots {
+  display: none;
+}
+
 /* CTA */
 .guadua-cta-section {
   background: linear-gradient(135deg, #1a3d28, var(--color-primary));
@@ -237,17 +262,13 @@
     gap: 40px;
   }
 
-  .features-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .portfolio-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 600px) {
-  .features-grid {
+  .guadua-facts {
     grid-template-columns: 1fr;
   }
 
@@ -258,5 +279,102 @@
   .guadua-cta-inner {
     justify-content: center;
     text-align: center;
+  }
+}
+
+/* ── Celular: los proyectos pasan a ser un carrusel que se desliza con el dedo ── */
+@media (max-width: 600px) {
+  .portfolio-grid {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 16px;
+    margin-inline: -24px;
+    padding: 4px 24px 8px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .portfolio-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* cada foto ocupa casi todo el ancho y deja asomar la siguiente */
+  .portfolio-item {
+    flex: 0 0 86%;
+    scroll-snap-align: center;
+    aspect-ratio: 4 / 5;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .portfolio-item:hover img {
+    transform: none;
+  }
+
+  .portfolio-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--color-primary-dark);
+    box-shadow: 0 4px 12px rgba(26, 61, 40, 0.25);
+    transform: translateY(-50%);
+    transition: opacity 0.25s ease, transform 0.2s ease;
+  }
+
+  .portfolio-arrow:active {
+    transform: translateY(-50%) scale(0.92);
+  }
+
+  .portfolio-arrow.prev {
+    left: 4px;
+  }
+
+  .portfolio-arrow.next {
+    right: 4px;
+  }
+
+  .portfolio-arrow:disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .portfolio-dots {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 14px;
+  }
+
+  .portfolio-dot {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+  }
+
+  .portfolio-dot::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-cream-dark);
+    transition: width 0.3s ease, background 0.3s ease;
+  }
+
+  .portfolio-dot.active::before {
+    width: 22px;
+    border-radius: 4px;
+    background: var(--color-primary);
   }
 }

@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import {
-  Leaf, Shield, TreePine, Zap, Thermometer, Hammer,
-  Play, MessageCircle
-} from 'lucide-react';
+import { useState, useRef } from 'react';
+import { Play, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
 import './GuaduaTab.css';
+import GuaduaMark from '../components/GuaduaMark';
+import PageDecor from '../components/PageDecor';
 
 // ── Para agregar fotos al portafolio de guadua: coloca imágenes en src/assets/guadua/ ──
 function loadImgs(modules) {
@@ -16,50 +15,66 @@ const PORTFOLIO_IMAGES = loadImgs(
 
 const FEATURES = [
   {
-    icon: <Leaf size={28} />,
     title: 'Ecológica y sostenible',
-    desc: 'La guadua es el material de construcción más sostenible de Colombia. Crece hasta 30cm por día sin necesidad de replantación.',
+    desc: 'Crece muy rápido y se renueva sola desde la misma mata, sin necesidad de replantar. Un recurso que se aprovecha sin agotar el bosque.',
   },
   {
-    icon: <Shield size={28} />,
     title: 'Resistente y duradera',
-    desc: 'Tratada correctamente, la guadua dura más de 50 años. Soporta sismos mejor que el concreto gracias a su flexibilidad natural.',
+    desc: 'Bien tratada y protegida de la humedad, la guadua dura décadas. Su flexibilidad natural le ayuda a responder bien ante los movimientos sísmicos.',
   },
   {
-    icon: <TreePine size={28} />,
     title: 'Nativa de Colombia',
-    desc: 'La guadua es el bambú colombiano, declarado patrimonio nacional. Un material con identidad, historia y futuro.',
+    desc: 'La guadua es el bambú colombiano, presente en el paisaje y la arquitectura del país desde hace generaciones. Un material con identidad, historia y futuro.',
   },
   {
-    icon: <Zap size={28} />,
     title: 'Rápida construcción',
     desc: 'Las estructuras en guadua se construyen mucho más rápido que en materiales tradicionales, reduciendo costos y tiempo de obra.',
   },
   {
-    icon: <Thermometer size={28} />,
     title: 'Aislamiento natural',
     desc: 'La guadua regula la temperatura de forma natural, mantiene los espacios frescos en verano y cálidos en épocas de frío, sin necesidad de climatización.',
   },
   {
-    icon: <Hammer size={28} />,
     title: 'Artesanía colombiana',
     desc: 'Cada estructura es diseñada y construida a mano por maestros artesanos de la región, preservando técnicas ancestrales.',
   },
 ];
 
-const VIDEO_ITEM = [{ src: '/images/casagua.mp4', alt: 'Construcción en guadua - Ecogranja San Francisco', type: 'video' }];
+const VIDEO_ITEM = [{
+  src: `${import.meta.env.BASE_URL}images/casagua.mp4`,
+  poster: PORTFOLIO_IMAGES[0],
+  alt: 'Construcción en guadua - Ecogranja San Francisco',
+  type: 'video',
+}];
 
 export default function GuaduaTab() {
   const [videoOpen, setVideoOpen] = useState(false);
+  // En el celular los proyectos son un carrusel deslizable; los puntos siguen la foto visible
+  const [slide, setSlide] = useState(0);
+  const trackRef = useRef(null);
+
+  const handleTrackScroll = (e) => {
+    const el = e.currentTarget;
+    const item = el.firstElementChild;
+    if (!item) return;
+    const step = item.getBoundingClientRect().width + 12;
+    setSlide(Math.round(el.scrollLeft / step));
+  };
+
+  const goToSlide = (i) => {
+    setSlide(i);
+    trackRef.current?.children[i]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  };
 
   return (
     <div className="guadua-tab">
+      <PageDecor theme="guadua" />
       {/* Hero section */}
       <section className="guadua-hero">
         <div className="container guadua-hero-grid">
           <div className="guadua-hero-text">
-            <span className="section-label">Material ancestral</span>
-            <h2 className="section-title">Construcciones en Guadua</h2>
+            <GuaduaMark className="is-start" />
+            <h1 className="section-title">Construcciones en <em>guadua</em></h1>
             <p>
               La guadua —el bambú colombiano— es uno de los materiales de construcción más
               extraordinarios del mundo. En Ecogranja San Francisco hemos construido nuestras
@@ -86,17 +101,22 @@ export default function GuaduaTab() {
           </div>
 
           <div className="guadua-hero-visual">
-            <div className="guadua-img-container" onClick={() => setVideoOpen(true)}>
+            <button
+              type="button"
+              className="guadua-img-container"
+              onClick={() => setVideoOpen(true)}
+              aria-label="Ver el video del proceso de construcción"
+            >
               {PORTFOLIO_IMAGES[0] && (
-                <img src={PORTFOLIO_IMAGES[0]} alt="Cabaña de guadua" />
+                <img src={PORTFOLIO_IMAGES[0]} alt="" />
               )}
-              <div className="play-overlay">
-                <div className="play-btn">
+              <span className="play-overlay">
+                <span className="play-btn">
                   <Play size={36} fill="white" />
-                </div>
+                </span>
                 <span>Ver el proceso de construcción</span>
-              </div>
-            </div>
+              </span>
+            </button>
           </div>
         </div>
       </section>
@@ -105,19 +125,18 @@ export default function GuaduaTab() {
       <section className="guadua-features">
         <div className="container">
           <div className="section-header">
-            <span className="section-label">¿Por qué guadua?</span>
-            <h2 className="section-title">Ventajas del material</h2>
+            <GuaduaMark />
+            <h2 className="section-title">Ventajas del <em>material</em></h2>
           </div>
 
-          <div className="features-grid">
-            {FEATURES.map((f, i) => (
-              <div key={i} className="feature-card">
-                <div className="feature-icon">{f.icon}</div>
-                <h3>{f.title}</h3>
-                <p>{f.desc}</p>
+          <dl className="guadua-facts">
+            {FEATURES.map((f) => (
+              <div key={f.title} className="guadua-fact">
+                <dt>{f.title}</dt>
+                <dd>{f.desc}</dd>
               </div>
             ))}
-          </div>
+          </dl>
         </div>
       </section>
 
@@ -125,17 +144,62 @@ export default function GuaduaTab() {
       <section className="guadua-portfolio">
         <div className="container">
           <div className="section-header">
-            <span className="section-label">Nuestras obras</span>
-            <h2 className="section-title">Proyectos realizados</h2>
+            <GuaduaMark />
+            <h2 className="section-title">Proyectos <em>realizados</em></h2>
           </div>
 
-          <div className="portfolio-grid">
+          <div className="portfolio-carousel">
+          <div
+            className="portfolio-grid"
+            ref={trackRef}
+            onScroll={handleTrackScroll}
+            aria-label="Proyectos en guadua"
+          >
             {PORTFOLIO_IMAGES.map((src, i) => (
               <div key={src} className="portfolio-item">
                 <img src={src} alt={`Proyecto en guadua ${i + 1}`} loading="lazy" />
               </div>
             ))}
           </div>
+
+          {PORTFOLIO_IMAGES.length > 1 && (
+            <>
+              <button
+                type="button"
+                className="portfolio-arrow prev"
+                onClick={() => goToSlide(slide - 1)}
+                disabled={slide === 0}
+                aria-label="Proyecto anterior"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button
+                type="button"
+                className="portfolio-arrow next"
+                onClick={() => goToSlide(slide + 1)}
+                disabled={slide === PORTFOLIO_IMAGES.length - 1}
+                aria-label="Proyecto siguiente"
+              >
+                <ChevronRight size={24} />
+              </button>
+            </>
+          )}
+          </div>
+
+          {PORTFOLIO_IMAGES.length > 1 && (
+            <div className="portfolio-dots">
+              {PORTFOLIO_IMAGES.map((src, i) => (
+                <button
+                  key={src}
+                  type="button"
+                  className={`portfolio-dot${i === slide ? ' active' : ''}`}
+                  onClick={() => goToSlide(i)}
+                  aria-label={`Ver proyecto ${i + 1}`}
+                  aria-current={i === slide ? 'true' : undefined}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

@@ -45,22 +45,6 @@
   text-transform: uppercase;
 }
 
-/* Note */
-.menu-note {
-  background: rgba(201, 169, 110, 0.15);
-  border-left: 4px solid var(--color-bamboo);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  padding: 12px 20px;
-  margin: 32px 0 36px;
-}
-
-.menu-note p {
-  font-size: 0.85rem;
-  color: var(--color-text-light);
-  line-height: 1.6;
-  margin: 0;
-}
-
 /* Two-column grid for smaller sections */
 .menu-grid {
   display: grid;
@@ -95,7 +79,7 @@
 .menu-badge {
   font-size: 0.7rem;
   font-weight: 700;
-  background: var(--color-bamboo);
+  background: var(--color-bamboo-text);
   color: white;
   padding: 2px 10px;
   border-radius: 50px;
@@ -122,7 +106,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--color-bamboo);
+  color: var(--color-bamboo-text);
   margin-bottom: 12px;
   display: flex;
   align-items: center;
@@ -224,5 +208,57 @@
 
   .menu-hero h1 {
     font-size: 1.5rem;
+  }
+}
+
+/* De la finca */
+.menu-farm {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+  gap: 24px;
+  margin: 40px 0 8px;
+  padding: 16px;
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.menu-farm:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.menu-farm img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.menu-farm-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.95rem;
+  color: var(--color-text-light);
+  line-height: 1.6;
+}
+
+.menu-farm-text strong {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  color: var(--color-primary-dark);
+}
+
+.menu-farm-link {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+@media (max-width: 600px) {
+  .menu-farm {
+    grid-template-columns: 1fr;
   }
 }

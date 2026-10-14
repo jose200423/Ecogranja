@@ -1,0 +1,46 @@
+.guadua-mark {
+  display: block;
+  width: 132px;
+  height: 20px;
+  margin: 0 auto 14px;
+  overflow: visible;
+}
+
+.gm-culm {
+  fill: var(--color-bamboo);
+}
+
+.gm-node {
+  fill: var(--color-bamboo-text);
+}
+
+.gm-shine {
+  stroke: rgba(255, 255, 255, 0.55);
+  stroke-width: 1;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.gm-leaf {
+  fill: var(--color-primary-light);
+  transform-origin: 114px 10px;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* El brote se mece un poco al pasar sobre la sección: el único gesto del sello */
+.section-header:hover .gm-leaf,
+.guadua-hero-text:hover .gm-leaf,
+.about-text:hover .gm-leaf {
+  transform: rotate(-12deg);
+}
+
+/* Alineado a la izquierda cuando el título lo está */
+.guadua-mark.is-start {
+  margin-left: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gm-leaf {
+    transition: none;
+  }
+}

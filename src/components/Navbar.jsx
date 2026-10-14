@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Leaf } from 'lucide-react';
+import { Menu, X, CalendarDays } from 'lucide-react';
 import './Navbar.css';
 
 const TABS = [
@@ -32,7 +32,7 @@ export default function Navbar({ activeTab, onTabChange }) {
     <header className={`navbar ${scrolled || !isInicio ? 'scrolled' : ''}`}>
       <div className="navbar-inner">
         {/* Logo */}
-        <button className="navbar-logo" onClick={() => handleTabClick('inicio')}>
+        <button className="navbar-logo" onClick={() => handleTabClick('inicio')} aria-label="Ecogranja San Francisco, ir al inicio">
           <img src={`${import.meta.env.BASE_URL}images/logo.webp`} alt="Ecogranja San Francisco" className="logo-img" />
           <div className="logo-text">
             <span className="logo-name">Ecogranja</span>
@@ -41,12 +41,13 @@ export default function Navbar({ activeTab, onTabChange }) {
         </button>
 
         {/* Desktop tabs */}
-        <nav className="navbar-tabs">
+        <nav className="navbar-tabs" aria-label="Principal">
           {TABS.map((tab) => (
             <button
               key={tab.id}
               className={`nav-tab ${activeTab === tab.id ? 'active' : ''}`}
               onClick={() => handleTabClick(tab.id)}
+              aria-current={activeTab === tab.id ? 'page' : undefined}
             >
               {tab.label}
             </button>
@@ -57,7 +58,9 @@ export default function Navbar({ activeTab, onTabChange }) {
         <button
           className="hamburger"
           onClick={() => setMenuOpen((o) => !o)}
-          aria-label="Menú"
+          aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
         >
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -65,26 +68,21 @@ export default function Navbar({ activeTab, onTabChange }) {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="mobile-menu">
+        <nav className="mobile-menu" id="mobile-menu" aria-label="Principal">
           {TABS.map((tab) => (
             <button
               key={tab.id}
               className={`mobile-tab ${activeTab === tab.id ? 'active' : ''}`}
               onClick={() => handleTabClick(tab.id)}
+              aria-current={activeTab === tab.id ? 'page' : undefined}
             >
               {tab.label}
             </button>
           ))}
-          <a
-            href="https://wa.me/573125755037"
-            target="_blank"
-            rel="noreferrer"
-            className="mobile-whatsapp"
-            onClick={() => setMenuOpen(false)}
-          >
-            <Leaf size={16} /> Reservar ahora
-          </a>
-        </div>
+          <button className="mobile-whatsapp" onClick={() => handleTabClick('reservas')}>
+            <CalendarDays size={16} /> Reservar ahora
+          </button>
+        </nav>
       )}
     </header>
   );

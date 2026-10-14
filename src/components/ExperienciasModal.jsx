@@ -1,26 +1,31 @@
 import { useState, useEffect } from 'react';
-import { X, Heart, Briefcase, GraduationCap, Check, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Heart, Briefcase, GraduationCap, Check, MessageCircle, ChevronLeft, ChevronRight, ChevronDown, CalendarDays } from 'lucide-react';
+import useDialog from './useDialog';
 import './ExperienciasModal.css';
 
 const ICON_MAP = { Heart, Briefcase, GraduationCap };
 
-export default function ExperienciasModal({ service, onClose }) {
-  const [activeSubService, setActiveSubService] = useState(null);
+export default function ExperienciasModal({ service, initialSubId, onSubChange, onBook, onClose }) {
+  const [activeSubService, setActiveSubService] = useState(
+    () => service.subServices.find((s) => s.id === initialSubId) ?? null
+  );
   const [imgIndex, setImgIndex] = useState(0);
+  const dialogRef = useDialog();
+
+  const selectSub = (sub) => {
+    setActiveSubService(sub);
+    onSubChange?.(sub?.id ?? null);
+  };
 
   useEffect(() => {
     const handleKey = (e) => {
       if (e.key === 'Escape') {
-        if (activeSubService) setActiveSubService(null);
+        if (activeSubService) selectSub(null);
         else onClose();
       }
     };
     document.addEventListener('keydown', handleKey);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', handleKey);
-      document.body.style.overflow = '';
-    };
+    return () => document.removeEventListener('keydown', handleKey);
   }, [onClose, activeSubService]);
 
   const prevImg = () =>
@@ -37,20 +42,29 @@ export default function ExperienciasModal({ service, onClose }) {
 
   return (
     <div className="exp-modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="exp-modal">
+      <div
+        className="exp-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="exp-modal-title"
+        tabIndex={-1}
+        ref={dialogRef}
+      >
         {/* Header image */}
         <div className="exp-modal-hero">
-          <img src={service.images[imgIndex]} alt={service.title} />
+          <img src={service.images[imgIndex]} alt={`${service.title}, foto ${imgIndex + 1} de ${service.images.length}`} />
           {service.images.length > 1 && (
             <>
-              <button className="exp-img-nav prev" onClick={prevImg}><ChevronLeft size={22} /></button>
-              <button className="exp-img-nav next" onClick={nextImg}><ChevronRight size={22} /></button>
+              <button className="exp-img-nav prev" onClick={prevImg} aria-label="Foto anterior"><ChevronLeft size={22} /></button>
+              <button className="exp-img-nav next" onClick={nextImg} aria-label="Foto siguiente"><ChevronRight size={22} /></button>
               <div className="exp-img-dots">
                 {service.images.map((_, i) => (
                   <button
                     key={i}
                     className={`exp-img-dot ${i === imgIndex ? 'active' : ''}`}
                     onClick={() => setImgIndex(i)}
+                    aria-label={`Ver foto ${i + 1}`}
+                    aria-current={i === imgIndex ? 'true' : undefined}
                   />
                 ))}
               </div>
@@ -64,7 +78,7 @@ export default function ExperienciasModal({ service, onClose }) {
 
         {/* Body */}
         <div className="exp-modal-body">
-          <h2 className="exp-modal-title">{service.title}</h2>
+          <h2 className="exp-modal-title" id="exp-modal-title">{service.title}</h2>
           <p className="exp-modal-subtitle">{service.subtitle}</p>
           <p className="exp-modal-desc">{service.description}</p>
 
@@ -78,13 +92,15 @@ export default function ExperienciasModal({ service, onClose }) {
                   key={sub.id}
                   className={`exp-sub-card ${activeSubService?.id === sub.id ? 'active' : ''}`}
                   style={{ '--sub-color': sub.color }}
-                  onClick={() => setActiveSubService(activeSubService?.id === sub.id ? null : sub)}
+                  onClick={() => selectSub(activeSubService?.id === sub.id ? null : sub)}
+                  aria-expanded={activeSubService?.id === sub.id}
+                  aria-controls="exp-sub-panel"
                 >
                   <div className="exp-sub-icon" style={{ color: sub.color }}>
                     <Icon size={26} />
                   </div>
                   <span className="exp-sub-title">{sub.title}</span>
-                  <span className="exp-sub-arrow">{activeSubService?.id === sub.id ? '▲' : '▼'}</span>
+                  <ChevronDown size={18} className="exp-sub-arrow" aria-hidden="true" />
                 </button>
               );
             })}
@@ -92,7 +108,7 @@ export default function ExperienciasModal({ service, onClose }) {
 
           {/* Floating panel for active sub-service */}
           {activeSubService && (
-            <div className="exp-sub-panel" style={{ borderColor: activeSubService.color }}>
+            <div className="exp-sub-panel" id="exp-sub-panel" style={{ borderColor: activeSubService.color }}>
               <div className="exp-sub-panel-header" style={{ background: activeSubService.color }}>
                 <h4>{activeSubService.title}</h4>
               </div>
@@ -120,13 +136,18 @@ export default function ExperienciasModal({ service, onClose }) {
                   </div>
                 </div>
 
-                <button
-                  className="exp-sub-wa-btn"
-                  onClick={() => openWA(activeSubService)}
-                  style={{ background: activeSubService.color }}
-                >
-                  <MessageCircle size={18} /> Consultar por WhatsApp
-                </button>
+                <div className="exp-sub-actions">
+                  <button
+                    className="exp-sub-wa-btn"
+                    onClick={() => onBook(`reservas/${service.id}/${activeSubService.id}`)}
+                    style={{ background: activeSubService.color }}
+                  >
+                    <CalendarDays size={18} /> Elegir fechas
+                  </button>
+                  <button className="modal-wa-link" onClick={() => openWA(activeSubService)}>
+                    <MessageCircle size={16} /> o pregunta por WhatsApp
+                  </button>
+                </div>
               </div>
             </div>
           )}

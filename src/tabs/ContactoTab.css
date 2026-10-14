@@ -176,7 +176,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background: #25D366;
+  background: var(--color-whatsapp);
   color: var(--color-white);
   padding: 14px;
   border-radius: 50px;
@@ -189,7 +189,7 @@
 }
 
 .form-submit:hover {
-  background: #1da851;
+  background: var(--color-whatsapp-dark);
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }

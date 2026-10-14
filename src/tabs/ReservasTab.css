@@ -5,8 +5,43 @@
 .reservas-grid {
   display: grid;
   grid-template-columns: 1fr 1.4fr;
+  grid-template-areas:
+    "pasos fechas"
+    "info  escena";
   gap: 28px;
   align-items: start;
+}
+
+.reservas-panel { grid-area: pasos; }
+.cal-wrapper    { grid-area: fechas; }
+.reservas-info  { grid-area: info; }
+
+.reservas-escena {
+  grid-area: escena;
+  align-self: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 8px 0 12px;
+}
+
+.escena-carpa {
+  width: 210px;
+  height: auto;
+}
+
+.escena-fogata {
+  width: 108px;
+  height: auto;
+  margin-left: -6px;
+  transform-origin: 50% 100%;
+  animation: fogata-late 3.2s ease-in-out infinite;
+}
+
+/* La llama respira despacio; es el único movimiento de la página */
+@keyframes fogata-late {
+  0%, 100% { transform: scale(1, 1); }
+  50% { transform: scale(0.97, 1.04); }
 }
 
 .reservas-panel {
@@ -21,6 +56,21 @@
   border-radius: var(--radius-lg);
   padding: 28px;
   box-shadow: var(--shadow-sm);
+}
+
+fieldset.reservas-card {
+  border: none;
+  min-width: 0;
+}
+
+legend.panel-title {
+  float: left;
+  width: 100%;
+  padding: 0;
+}
+
+legend.panel-title + * {
+  clear: both;
 }
 
 .panel-title {
@@ -74,8 +124,56 @@
   background: rgba(44, 122, 75, 0.05);
 }
 
-.service-option input[type="radio"] {
-  display: none;
+.service-option input[type="radio"],
+.option-chip input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.service-option:has(input:focus-visible),
+.option-chip:has(input:focus-visible) {
+  outline: 3px solid var(--color-primary-dark);
+  outline-offset: 2px;
+}
+
+.service-option {
+  position: relative;
+}
+
+/* Opciones del servicio elegido (Pasadía / Dos días…) */
+.option-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 0 4px 26px;
+}
+
+.option-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 8px 16px;
+  border-radius: 50px;
+  border: 2px solid var(--color-cream-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.option-chip:hover {
+  border-color: var(--color-secondary);
+}
+
+.option-chip.selected {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
 }
 
 .service-option-content {
@@ -165,15 +263,20 @@
   color: var(--color-text-light);
 }
 
-/* Info */
-.reservas-info {
-  background: var(--color-cream);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  border-left: 4px solid var(--color-bamboo);
+.guest-hint {
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--color-text-light);
 }
 
-.reservas-info h4 {
+/* Info */
+.reservas-info {
+  background: var(--color-cream-dark);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+
+.reservas-info h2 {
   font-family: var(--font-serif);
   font-size: 1rem;
   color: var(--color-primary-dark);
@@ -189,7 +292,7 @@
 }
 
 .reservas-info li {
-  font-size: 0.85rem;
+  font-size: var(--text-small);
   color: var(--color-text-light);
   padding-left: 14px;
   position: relative;
@@ -207,19 +310,58 @@
   justify-content: center;
 }
 
-/* Cal wrapper */
+/* Cal wrapper: el calendario vive dentro de la tarjeta del paso 3, sin segunda tarjeta.
+   No es "sticky": al pegarse a la pantalla se montaba sobre la escena de campamento */
 .cal-wrapper {
-  position: sticky;
-  top: calc(var(--navbar-height) + 20px);
+  position: relative;
+}
+
+.cal-wrapper .calendar {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
 }
 
 /* Responsive */
 @media (max-width: 900px) {
   .reservas-grid {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "pasos"
+      "fechas"
+      "info"
+      "escena";
   }
 
-  .cal-wrapper {
-    position: static;
+  .reservas-escena {
+    padding: 0;
+  }
+
+  .escena-carpa {
+    width: 150px;
+  }
+
+  .escena-fogata {
+    width: 78px;
+  }
+}
+
+@media (max-width: 600px) {
+  .reservas-tab {
+    padding: 48px 0;
+  }
+
+  .reservas-card {
+    padding: 20px 16px;
+  }
+
+  .guest-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .option-chips {
+    padding-left: 0;
   }
 }

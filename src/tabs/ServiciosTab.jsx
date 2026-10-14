@@ -1,30 +1,35 @@
-import { useState } from 'react';
 import {
   Home, Tent, Users, ShoppingBasket, Sparkles,
   ArrowRight, MessageCircle,
 } from 'lucide-react';
-import { servicesData } from '../data/services';
+import { servicesData, formatPrice } from '../data/services';
 import ServiceModal from '../components/ServiceModal';
 import ExperienciasModal from '../components/ExperienciasModal';
 import './ServiciosTab.css';
+import GuaduaMark from '../components/GuaduaMark';
+import PageDecor from '../components/PageDecor';
 
 const ICON_MAP = {
   Home, Tent, Users, ShoppingBasket, Sparkles,
 };
 
-export default function ServiciosTab({ onTabChange }) {
-  const [activeService, setActiveService] = useState(null);
+export default function ServiciosTab({
+  onTabChange, serviceId, subId, onOpenService, onCloseService, onSubChange,
+}) {
+  // El servicio abierto vive en la URL (#/servicios/<id>), así se puede enlazar y "atrás" lo cierra
+  const activeService = servicesData.find((s) => s.id === serviceId) ?? null;
 
-  const handleCardClick = (service) => setActiveService(service);
-  const handleClose = () => setActiveService(null);
+  const handleCardClick = (service) => onOpenService(service.id);
+  const handleClose = onCloseService;
 
   return (
     <div className="servicios-tab">
+      <PageDecor theme="servicios" />
       <div className="container">
         {/* Header */}
         <div className="section-header">
-          <span className="section-label">Lo que ofrecemos</span>
-          <h2 className="section-title">Nuestros servicios</h2>
+          <GuaduaMark />
+          <h1 className="section-title">Nuestros <em>servicios</em></h1>
           <p className="section-desc">
             Experiencias únicas en contacto con la naturaleza, diseñadas para familias,
             empresas, jóvenes y viajeros que buscan autenticidad y bienestar.
@@ -57,9 +62,12 @@ export default function ServiciosTab({ onTabChange }) {
                     <Icon size={24} />
                   </div>
                   <h3 className="service-card-title">{service.title}</h3>
-                  <p className="service-card-desc">
-                    {service.description.slice(0, 120)}...
-                  </p>
+                  {service.priceFrom && (
+                    <p className="service-price">
+                      Desde <strong>{formatPrice(service.priceFrom)}</strong> por persona
+                    </p>
+                  )}
+                  <p className="service-card-desc">{service.description}</p>
                   <button className="service-card-btn">
                     Ver detalles <ArrowRight size={16} />
                   </button>
@@ -106,10 +114,17 @@ export default function ServiciosTab({ onTabChange }) {
 
       {/* Modals */}
       {activeService && activeService.isExperiencias && (
-        <ExperienciasModal service={activeService} onClose={handleClose} />
+        <ExperienciasModal
+          key={activeService.id}
+          service={activeService}
+          initialSubId={subId}
+          onSubChange={onSubChange}
+          onBook={onTabChange}
+          onClose={handleClose}
+        />
       )}
       {activeService && !activeService.isExperiencias && (
-        <ServiceModal service={activeService} onClose={handleClose} />
+        <ServiceModal key={activeService.id} service={activeService} onBook={onTabChange} onClose={handleClose} />
       )}
     </div>
   );

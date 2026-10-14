@@ -1,13 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
   ChevronLeft, ChevronRight, Calendar, ArrowRight, Leaf,
-  MapPin, Phone, Mail, Clock, MessageCircle, Send,
+  MapPin, Phone, MessageCircle, Send,
 } from 'lucide-react';
 import aboutFinca from '../assets/hero/04-hero.jpeg';
 import aboutCabana1 from '../assets/hospedaje/cabana1.webp';
 import aboutCabana2 from '../assets/hospedaje/cabana2.webp';
 import './InicioTab.css';
 import './ContactoTab.css';
+import GuaduaMark from '../components/GuaduaMark';
+import PageDecor from '../components/PageDecor';
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Para agregar imágenes al carrusel: simplemente coloca el archivo dentro de
@@ -23,14 +25,15 @@ const HERO_IMAGES = Object.keys(heroModules)
   .sort()
   .map((key) => heroModules[key].default);
 
+// Mismos nombres que las tarjetas de Servicios, para que el mensaje llegue sin ambigüedad
 const CONTACT_SERVICES = [
-  'Hospedaje y Experiencias',
-  'Campamento RUAH',
+  'Estadía en la naturaleza',
   'Experiencia RUAH',
-  'Encuentros Empresariales',
-  'Retiros Espirituales',
-  'Productos Orgánicos',
-  'Construcciones en Guadua',
+  'Campamento RUAH',
+  'Encuentros empresariales',
+  'Convivencias de colegio',
+  'Productos orgánicos',
+  'Construcciones en guadua',
   'Otro',
 ];
 
@@ -38,6 +41,16 @@ export default function InicioTab({ onTabChange }) {
   const [slide, setSlide] = useState(0);
   const [animating, setAnimating] = useState(false);
   const total = HERO_IMAGES.length;
+  // Diapositivas cuyo fondo ya se pidió: la actual y la siguiente, el resto a medida que llegan
+  const [loaded, setLoaded] = useState(() => new Set([0, 1 % Math.max(total, 1)]));
+
+  useEffect(() => {
+    setLoaded((prev) => {
+      const nextIdx = (slide + 1) % Math.max(total, 1);
+      if (prev.has(slide) && prev.has(nextIdx)) return prev;
+      return new Set([...prev, slide, nextIdx]);
+    });
+  }, [slide, total]);
 
   const [contactForm, setContactForm] = useState({ name: '', email: '', service: '', message: '' });
   const [contactSent, setContactSent] = useState(false);
@@ -54,7 +67,10 @@ export default function InicioTab({ onTabChange }) {
 
   useEffect(() => {
     if (total <= 1) return;
-    const id = setInterval(next, 5500);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const id = setInterval(() => {
+      if (!document.hidden) next();
+    }, 5500);
     return () => clearInterval(id);
   }, [next, total]);
 
@@ -73,30 +89,30 @@ export default function InicioTab({ onTabChange }) {
         `*Mensaje:*\n${contactForm.message}`
     );
 
-    window.open(`https://wa.me/573125755037?text=${msg}`, '_blank');
+    const url = `https://wa.me/573125755037?text=${msg}`;
+    const win = window.open(url, '_blank');
+    if (!win) window.location.href = url; // ventana bloqueada: abrir en la misma pestaña
     setContactSent(true);
-    setTimeout(() => {
-      setContactSent(false);
-      setContactForm({ name: '', email: '', service: '', message: '' });
-    }, 4000);
+    setTimeout(() => setContactSent(false), 4000);
   };
 
   return (
     <div className="inicio-tab">
+      <PageDecor theme="inicio" />
       {/* Hero Slider */}
       <section className="hero">
         {HERO_IMAGES.map((src, i) => (
           <div
             key={src}
             className={`hero-slide ${i === slide ? 'active' : ''}`}
-            style={{ backgroundImage: `url(${src})` }}
+            style={loaded.has(i) ? { backgroundImage: `url(${src})` } : undefined}
           />
         ))}
         <div className="hero-overlay" />
 
         <div className="hero-content">
           <span className="hero-sub">Ecogranja San Francisco</span>
-          <h1 className="hero-title">Donde la naturaleza te abraza</h1>
+          <h1 className="hero-title">Donde la naturaleza <em>te abraza</em></h1>
           <p className="hero-desc">
             Vive una experiencia única en medio de la naturaleza, en cabañas de guadua
             rodeadas de montañas y aire puro en Silvania, Cundinamarca.
@@ -126,7 +142,8 @@ export default function InicioTab({ onTabChange }) {
                   key={i}
                   className={`hero-dot ${i === slide ? 'active' : ''}`}
                   onClick={() => goTo(i)}
-                  aria-label={`Slide ${i + 1}`}
+                  aria-label={`Ver foto ${i + 1}`}
+                  aria-current={i === slide ? 'true' : undefined}
                 />
               ))}
             </div>
@@ -143,8 +160,8 @@ export default function InicioTab({ onTabChange }) {
       <section className="about-section">
         <div className="container about-grid">
           <div className="about-text">
-            <span className="section-label">Nuestra historia</span>
-            <h2 className="section-title">Un refugio verde en Cundinamarca</h2>
+            <GuaduaMark className="is-start" />
+            <h2 className="section-title">Un refugio <em>verde</em> en Cundinamarca</h2>
             <p>
               Ecogranja San Francisco es un espacio de turismo ecológico ubicado en las montañas de
               Silvania, Cundinamarca. Nacimos del amor por la tierra, la guadua y la vida campesina,
@@ -158,6 +175,10 @@ export default function InicioTab({ onTabChange }) {
             <p>
               Somos más que un destino turístico: somos una familia que recibe a otras familias con
               los brazos abiertos y el corazón lleno de calidez colombiana.
+            </p>
+            <p className="about-place">
+              <MapPin size={18} aria-hidden="true" />
+              <span>Vereda Safranal, Silvania, Cundinamarca · <strong>a pocas horas de Bogotá</strong></span>
             </p>
             <button className="btn-primary about-cta" onClick={() => onTabChange('servicios')}>
               Conoce nuestros servicios <ArrowRight size={18} />
@@ -203,10 +224,11 @@ export default function InicioTab({ onTabChange }) {
 
       {/* Contact Section */}
       <section id="contacto-section" className="inicio-contacto">
+        <PageDecor theme="contacto" />
         <div className="container">
           <div className="section-header">
-            <span className="section-label">Estamos aquí</span>
-            <h2 className="section-title">Contáctanos</h2>
+            <GuaduaMark />
+            <h2 className="section-title"><em>Contáctanos</em></h2>
             <p className="section-desc">
               ¿Tienes preguntas o quieres reservar? Escríbenos y te responderemos
               con toda la información que necesitas.

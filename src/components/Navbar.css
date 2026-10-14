@@ -90,7 +90,7 @@
 
 .nav-tab.active {
   background: var(--color-bamboo);
-  color: var(--color-primary-dark);
+  color: var(--color-forest);
   font-weight: 700;
 }
 
@@ -147,12 +147,14 @@
 
 .mobile-whatsapp {
   display: flex;
+  width: 100%;
   align-items: center;
   gap: 8px;
   margin-top: 12px;
   padding: 14px 20px;
-  background: #25D366;
-  color: var(--color-white);
+  background: var(--color-bamboo);
+  color: var(--color-forest);
+  font-family: inherit;
   border-radius: 50px;
   font-weight: 700;
   font-size: 0.95rem;
@@ -162,7 +164,7 @@
 }
 
 .mobile-whatsapp:hover {
-  background: #1da851;
+  background: var(--color-bamboo-dark);
 }
 
 /* Responsive */

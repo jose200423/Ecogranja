@@ -1,4 +1,6 @@
 import './MenuTab.css';
+import farmEggs from '../assets/menu/finca-huevos.webp';
+import PageDecor from '../components/PageDecor';
 
 const MENU = {
   combos: {
@@ -143,6 +145,7 @@ function Section({ data }) {
 export default function MenuTab() {
   return (
     <div className="menu-tab">
+      <PageDecor theme="menu" />
       {/* Hero */}
       <div className="menu-hero">
         <div className="menu-hero-inner">
@@ -165,6 +168,16 @@ export default function MenuTab() {
 
         {/* Bebidas — full width */}
         <Section data={MENU.bebidas} />
+
+        {/* De la finca */}
+        <a className="menu-farm" href="#/servicios/productos">
+          <img src={farmEggs} alt="Huevos de gallina criolla recogidos en la finca" loading="lazy" />
+          <span className="menu-farm-text">
+            <strong>También de la finca</strong>
+            Huevos de gallina criolla, queso campesino, frutas y verduras de temporada.
+            <span className="menu-farm-link">Ver productos orgánicos →</span>
+          </span>
+        </a>
 
         {/* CTA */}
         <div className="menu-cta">

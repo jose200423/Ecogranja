@@ -78,14 +78,12 @@
 }
 
 .footer-wa {
-  font-size: 0.82rem !important;
-  font-weight: 700;
-  background: #25D366 !important;
-  color: var(--color-white) !important;
-  border-radius: 50px !important;
-  width: auto !important;
-  padding: 0 14px !important;
-  height: 36px;
+  background: var(--color-whatsapp) !important;
+  color: var(--color-white);
+}
+
+.footer-wa:hover {
+  background: var(--color-whatsapp-dark) !important;
 }
 
 /* Links */
@@ -115,7 +113,6 @@
   padding: 2px 0;
   transition: color 0.2s;
   font-family: var(--font-sans);
-  text-transform: capitalize;
 }
 
 .footer-links nav button:hover {

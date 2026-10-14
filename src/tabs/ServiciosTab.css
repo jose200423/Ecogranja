@@ -84,16 +84,20 @@
 
 .service-card-title {
   font-family: var(--font-serif);
-  font-size: 1.15rem;
+  font-size: var(--text-h3);
   color: var(--color-primary-dark);
   line-height: 1.2;
 }
 
 .service-card-desc {
-  font-size: 0.88rem;
+  font-size: var(--text-small);
   color: var(--color-text-light);
   line-height: 1.7;
   flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .service-card-badge {
@@ -200,6 +204,23 @@
   .service-card:nth-child(4),
   .service-card:nth-child(5) {
     grid-column: span 1;
+  }
+
+  /* Tarjetas más compactas: menos pantallas antes de decidir */
+  .service-card-img {
+    height: 150px;
+  }
+
+  .service-card-body {
+    padding: 16px 18px 18px;
+  }
+
+  .service-card-icon {
+    display: none;
+  }
+
+  .service-card-desc {
+    -webkit-line-clamp: 2;
   }
 
   .menu-section {

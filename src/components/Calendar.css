@@ -37,9 +37,20 @@
   transition: background 0.2s;
 }
 
-.cal-nav:hover {
+.cal-nav:hover:not(:disabled) {
   background: var(--color-secondary);
   color: var(--color-white);
+}
+
+.cal-nav:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.cal-hint {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin-top: -6px;
 }
 
 /* Mode toggle */
@@ -89,6 +100,12 @@
 
 .cal-day {
   aspect-ratio: 1;
+  min-height: 40px;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: var(--font-sans);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,10 +127,10 @@
 }
 
 .cal-day.disabled {
-  color: #ccc;
+  color: #a3a3a3;
   cursor: not-allowed;
   text-decoration: line-through;
-  text-decoration-color: #ddd;
+  text-decoration-color: #cfcfcf;
 }
 
 .cal-day.today::after {
@@ -146,6 +163,21 @@
 
 .cal-day.range-end {
   border-radius: 0 50% 50% 0;
+}
+
+/* Footer: resumen + CTA */
+.cal-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cal-cap {
+  display: inline-block;
+}
+
+.cal-cap::first-letter {
+  text-transform: uppercase;
 }
 
 /* Summary */
@@ -196,12 +228,32 @@
   color: var(--color-text-light);
 }
 
-.legend-today {
-  color: var(--color-bamboo);
+.cal-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.legend-selected {
-  color: var(--color-primary);
+.cal-legend span::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.legend-today::before {
+  width: 6px !important;
+  height: 6px !important;
+  background: var(--color-bamboo-text);
+}
+
+.legend-selected::before {
+  background: var(--color-primary);
+}
+
+.legend-disabled::before {
+  background: none;
+  border: 1px solid #a3a3a3;
 }
 
 /* CTA */
@@ -211,7 +263,7 @@
   justify-content: center;
   gap: 10px;
   padding: 14px;
-  background: #25D366;
+  background: var(--color-whatsapp);
   color: var(--color-white);
   border-radius: 50px;
   font-weight: 700;
@@ -221,13 +273,41 @@
 }
 
 .cal-cta:hover:not(.cal-cta-disabled) {
-  background: #1da851;
+  background: var(--color-whatsapp-dark);
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }
 
 .cal-cta-disabled {
-  background: #ccc;
+  background: var(--color-cream-dark);
   cursor: not-allowed;
-  color: #888;
+  color: var(--color-text-light);
+}
+
+/* Móvil: días de 44px y el resumen + CTA fijos abajo mientras se usa el calendario */
+@media (max-width: 600px) {
+  .cal-grid {
+    gap: 0;
+  }
+
+  .cal-day {
+    min-height: 44px;
+    font-size: 0.95rem;
+  }
+
+  .cal-nav {
+    width: 44px;
+    height: 44px;
+  }
+
+  .cal-footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    margin: 0 -16px -20px;
+    padding: 12px 16px 16px;
+    background: var(--color-white);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    box-shadow: 0 -8px 16px -12px rgba(26, 61, 40, 0.35);
+  }
 }

@@ -1,0 +1,80 @@
+/* Capa fija por encima de los fondos de las secciones y por debajo del contenido:
+   los .container, las bandas verdes, el hero y el pie van en z-index 1 y, al estar
+   después en el documento, pintan encima. Las hojas solo cruzan espacios libres. */
+.falling-leaves {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Carril: baja de arriba a abajo y se balancea de lado a lado */
+.fl-lane {
+  position: absolute;
+  top: -40px;
+  opacity: 0;
+  animation:
+    fl-fall var(--dur) linear var(--delay) infinite,
+    fl-sway calc(var(--dur) / 4) ease-in-out var(--delay) infinite alternate;
+}
+
+/* La hoja gira despacio sobre sí misma mientras cae */
+.fl-leaf {
+  display: block;
+  animation: fl-spin calc(var(--dur) / 3) ease-in-out var(--delay) infinite alternate;
+}
+
+@keyframes fl-fall {
+  0%   { transform: translateY(0);      opacity: 0; }
+  8%   { opacity: var(--fl-peak, 0.45); }
+  85%  { opacity: var(--fl-peak, 0.45); }
+  100% { transform: translateY(110vh);  opacity: 0; }
+}
+
+@keyframes fl-sway {
+  from { margin-left: 0; }
+  to   { margin-left: var(--sway); }
+}
+
+@keyframes fl-spin {
+  from { transform: rotate(-35deg) rotateX(0deg); }
+  to   { transform: rotate(40deg) rotateX(55deg); }
+}
+
+/* Lo que debe quedar siempre por encima de las hojas */
+.hero,
+.footer,
+.cta-banner,
+.menu-section,
+.guadua-cta-section,
+.menu-hero,
+.contact-whatsapp-card {
+  position: relative;
+  z-index: 1;
+}
+
+@media (min-width: 901px) {
+  .falling-leaves.is-mobile-only {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .fl-desktop {
+    display: none;
+  }
+}
+
+/* Sin animación para quien pidió reducir el movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .falling-leaves {
+    display: none;
+  }
+}
+
+@media print {
+  .falling-leaves {
+    display: none;
+  }
+}
